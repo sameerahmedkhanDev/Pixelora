@@ -422,11 +422,11 @@ footer{padding:64px 0 36px;background:var(--paper)}
       <div class="case-media reveal">
         <div class="phones">
           <figure style="margin:0">
-            <div class="phone"><video data-autoplay muted loop playsinline preload="none" poster="assets/homefix-login-poster.jpg" aria-label="HomeFix app: OTP login and home screen"><source src="assets/homefix-login.webm" type="video/webm"><source src="assets/homefix-login.mp4" type="video/mp4"></video></div>
+            <div class="phone"><video data-autoplay autoplay muted loop playsinline preload="metadata" poster="assets/homefix-login-poster.jpg" aria-label="HomeFix app: OTP login and home screen"><source src="assets/homefix-login.webm" type="video/webm"><source src="assets/homefix-login.mp4" type="video/mp4"></video></div>
             <figcaption class="phone-cap">Login &amp; home</figcaption>
           </figure>
           <figure style="margin:0">
-            <div class="phone"><video data-autoplay muted loop playsinline preload="none" poster="assets/homefix-booking-poster.jpg" aria-label="HomeFix app: choosing a service, booking and payment"><source src="assets/homefix-booking.webm" type="video/webm"><source src="assets/homefix-booking.mp4" type="video/mp4"></video></div>
+            <div class="phone"><video data-autoplay autoplay muted loop playsinline preload="metadata" poster="assets/homefix-booking-poster.jpg" aria-label="HomeFix app: choosing a service, booking and payment"><source src="assets/homefix-booking.webm" type="video/webm"><source src="assets/homefix-booking.mp4" type="video/mp4"></video></div>
             <figcaption class="phone-cap">Booking &amp; payment</figcaption>
           </figure>
         </div>
@@ -696,14 +696,14 @@ footer{padding:64px 0 36px;background:var(--paper)}
   // play phone videos only while visible (respects reduced motion)
   var vids=document.querySelectorAll('video[data-autoplay]');
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduce){vids.forEach(function(v){v.setAttribute('controls','')})}
+  if(reduce){vids.forEach(function(v){v.pause();v.setAttribute('controls','')})}
   else if('IntersectionObserver' in window){
     var vo=new IntersectionObserver(function(es){es.forEach(function(en){
       var v=en.target;
-      if(en.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){})}else{v.pause()}
+      if(en.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){v.setAttribute('controls','')})}else{v.pause()}
     })},{threshold:.35});
     vids.forEach(function(v){vo.observe(v)});
-  }
+  }else{vids.forEach(function(v){var p=v.play();if(p&&p.catch)p.catch(function(){v.setAttribute('controls','')})})}
 
   document.getElementById('year').textContent=new Date().getFullYear();
 })();
