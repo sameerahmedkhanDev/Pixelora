@@ -693,11 +693,9 @@ footer{padding:64px 0 36px;background:var(--paper)}
     items.forEach(function(el){io.observe(el)});
   }else{items.forEach(function(el){el.classList.add('in')})}
 
-  // play phone videos only while visible (respects reduced motion)
+  // Play phone videos whenever they scroll into view.
   var vids=document.querySelectorAll('video[data-autoplay]');
-  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduce){vids.forEach(function(v){v.pause();v.setAttribute('controls','')})}
-  else if('IntersectionObserver' in window){
+  if('IntersectionObserver' in window){
     var vo=new IntersectionObserver(function(es){es.forEach(function(en){
       var v=en.target;
       if(en.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){v.setAttribute('controls','')})}else{v.pause()}
